@@ -28,6 +28,7 @@ async function projectBody(req,res,next) {
     } catch (err) {
         res.status(500).json(err)
     }
+    next()
 }
 
 module.exports = {

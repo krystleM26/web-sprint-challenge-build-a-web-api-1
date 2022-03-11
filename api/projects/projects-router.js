@@ -25,7 +25,7 @@ router.get('/:id', validateProjectId, async (req, res) => {
 
 
 router.post('/', projectBody, (req, res) => {
-    console.log('hey im request', req.body)
+
   Projects.insert(req.body)
     .then(content => {
       res.status(201).json(content)
@@ -35,17 +35,17 @@ router.post('/', projectBody, (req, res) => {
         message: ' body content not found',
       })
     })
-    res.send('hello');
+   
 })
 
 router.put('/:id', validateProjectId, projectBody, (req, res) => {
-  const update = req.body
-  Projects.update(req.params.id, update)
+  const changes = req.body
+  Projects.update(req.params.id, changes)
     .then((project) => {
       if (!project) {
-        res.status(404).json(project)
+        res.status(404).json()
       } else {
-        res.json(project)
+        res.status(200).json(project)
       }
     })
     .catch((err) => {
