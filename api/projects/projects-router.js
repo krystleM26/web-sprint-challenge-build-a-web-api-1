@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
   Projects.get()
-    .then(project => {
+    .then((project) => {
       res.status(200).json(project)
     })
     .catch((err) => {
@@ -23,11 +23,9 @@ router.get('/:id', validateProjectId, async (req, res) => {
   }
 })
 
-
 router.post('/', projectBody, (req, res) => {
-
   Projects.insert(req.body)
-    .then(content => {
+    .then((content) => {
       res.status(201).json(content)
     })
     .catch((err) => {
@@ -35,7 +33,6 @@ router.post('/', projectBody, (req, res) => {
         message: ' body content not found',
       })
     })
-   
 })
 
 router.put('/:id', validateProjectId, projectBody, (req, res) => {
@@ -55,21 +52,19 @@ router.put('/:id', validateProjectId, projectBody, (req, res) => {
     })
 })
 
-router.delete('/:id',validateProjectId, (req, rest) => {
-    Projects.remove(req.params.id)
-        .then(content => {
-            if(!content) {
-                res.json(content)
-            }
-            else {
-                res.status(404).json()
-            }
-
-        })
-        .catch(err => {
-            res.status(500).json()
-        })
-  console.log('delete project')
+router.delete('/:id', validateProjectId, (req, res) => {
+  Projects.remove(req.params.id)
+    .then((content) => {
+      if (content) {
+        res.json(content)
+      } else {
+        res.status(404).json()
+      }
+    })
+    .catch((err) => {
+      res.status(500).json()
+    })
+  
 })
 
 router.get('/:id/actions', (req, res) => {
