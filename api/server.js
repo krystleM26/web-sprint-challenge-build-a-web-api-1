@@ -6,7 +6,7 @@ server.use(express.json())
 server.use('/api/projects', projectsRouter)
 
 server.get('/', (req,res) => {
-    console.log('hey Im working')
+    
     res.send('<h2>Lets Get It!</h2>')
 } )
 

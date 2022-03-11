@@ -4,28 +4,36 @@ const router = express.Router()
 
 const Projects = require('./projects-model')
 
-router.get('/', (req,res, next) => {
-    console.log('get all posts')
+router.get('/', (req,res,) => {
+    
+    Projects.get()
+    .then(project => {
+        res.status(200).json(project)
+    })
+    .catch(err => {
+        res.status(500).json({message: 'Cannot get Projects'})
+    })
 })
 
 
-router.get('/:id', (req,res,next)=> {
+router.get('/:id', (req,res,)=> {
+    Projects.insert()
     console.log('get projects by id')
 })
 
-router.post('/', (req,res,next) => {
-    console.log('get new project')
+router.post('/', (req,res) => {
+console.log('get new project')
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', (req, res) => {
     console.log('get updated project')
 })
 
-router.delete('/:id', (req,res,next) => {
+router.delete('/:id', (req,rest) => {
     console.log('delete project')
 })
 
-router.get('/:id/actions', (req,res,next) => {
+router.get('/:id/actions', (req,res) => {
     console.log('get project actions')
 })
 
