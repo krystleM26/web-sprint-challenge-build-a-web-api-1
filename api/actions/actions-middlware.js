@@ -7,26 +7,24 @@ async function validateActionId(req, res, next) {
       res.status(404).json()
     } else {
       req.actions
-    }
-  } catch (err) {
-    res.staus(500).json()
-  }
-  next()
-}
-
-async function validateAction(req, res, next) {
-  try {
-    const action = await Actions.insert(req.body)
-    if (!body) {
-      res.staus(400).json()
-      next()
-    } else {
-      res.status(500).json(err)
+      next();
     }
   } catch (err) {
     res.status(500).json()
   }
-  next()
+}
+
+async function validateAction(req, res, next) {
+  try {
+    const { notes, description, completed,  project_id } = req.body
+    if (!notes || !description || !project_id || completed == null ) {
+      res.status(400).json('Missing actions')
+    } else {
+      next();
+    }
+  } catch (err) {
+    res.status(500).json()
+  }
 }
 
 module.exports = {

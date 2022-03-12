@@ -15,17 +15,22 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', validateProjectId, async (req, res) => {
+  console.log(req.project);
   try {
     const project = await Projects.get(req.params.id)
-    res.json(project)
+    if ( !project ){
+      res.status(404).json({msg: 'No project found'});
+    }else {
+      res.status(200).json(project)
+    }
   } catch (err) {
-    res.status(500).json({ message: 'Cannot get Projects with that ID' })
+    res.status(400).json({ message: 'Cannot get Projects with that ID' })
   }
 })
 
 router.post('/', projectBody, (req, res) => {
   Projects.insert(req.body)
-    .then((content) => {
+    .then(content => {
       res.status(201).json(content)
     })
     .catch((err) => {
@@ -37,13 +42,10 @@ router.post('/', projectBody, (req, res) => {
 
 router.put('/:id', validateProjectId, projectBody, (req, res) => {
   const changes = req.body
+  
   Projects.update(req.params.id, changes)
     .then((project) => {
-      if (!project) {
-        res.status(404).json()
-      } else {
         res.status(200).json(project)
-      }
     })
     .catch((err) => {
       res.status(500).json({
@@ -54,11 +56,11 @@ router.put('/:id', validateProjectId, projectBody, (req, res) => {
 
 router.delete('/:id', validateProjectId, (req, res) => {
   Projects.remove(req.params.id)
-    .then((content) => {
-      if (content) {
-        res.json(content)
-      } else {
+    .then(content => {
+      if (!content) {
         res.status(404).json()
+      } else {
+        res.json(content)
       }
     })
     .catch((err) => {
